@@ -39,7 +39,7 @@ body {
 #root {
   max-width: 100%;
   margin: 0 auto;
-  text-align: center;
+  /* text-align: center; */
   border-inline: 1px solid var(--border);
   min-height: 100svh;
   display: flex;
@@ -57,7 +57,7 @@ h2 {
 h1 {
   font-size: 56px;
   letter-spacing: -1.68px;
-  margin: 32px 0;
+  /* margin: 32px 0; */
   @media (max-width: 1024px) {
     font-size: 36px;
     margin: 20px 0;
@@ -67,7 +67,7 @@ h2 {
   font-size: 24px;
   line-height: 118%;
   letter-spacing: -0.24px;
-  margin: 0 0 8px;
+  /* margin: 0 0 8px; */
   @media (max-width: 1024px) {
     font-size: 20px;
   }
@@ -79,6 +79,7 @@ p {
 .splash-nav-bar{
   padding: 20px;
   background-color: white;
+  /* position: fixed; */
   
 }
 .splash-nav-bar > *{
@@ -114,20 +115,165 @@ p {
   text-decoration: none;
 
 }
+#bluetext{
+  color: blue;
+}
 
 /* End of splash page nav items */
-
+/* buttons */
+#buttons{
+  padding: 20px;
+}
+#explore{
+  color: black;
+  background-color: white;
+  padding: 10px 15px 10px 15px;
+  border: 1px solid blue;
+  border-radius: 10px;
+  font-size: 30px;
+  cursor: pointer;
+}
+#join{
+  color: white;
+  background-color: blue;
+  padding: 10px 15px 10px 15px;
+  border-radius: 10px;
+  margin-right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+}
+/* -- */
 /* splash main content */
 #main-content-splash{
-  columns: 1fr 1fr;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 100vh;
+  /* padding: 0 8%; */
 }
 #text{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 50%;
-  height: 100vh;
-  border: solid 1px #08060d;
+  margin-left: 60px;
+}
+#text h1{
+  font-size: 100px;
+  padding: 10px;
+  text-align: left;
+}
+#text p{
+  font-size: 30px;
+  padding: 10px;
+  text-align: left;
 }
 #side-images{
+  display: flex;
   width: 50%;
-  height: 100%;
   border: 1px solid #08060d;
+}
+/* images splash page */
+#side-images img{
+  width: 300px;
+  position: absolute;
+}
+#alyona{
+  right: 180px;
+  bottom: 350px;
+}
+#pervane{
+  right: 400px;
+  bottom: 200px;
+}
+#samert{
+  top: 180px;
+  right:300px;
+}
+
+/* Login form */
+
+.login{
+  margin-top: 100px;
+  justify-content: center;
+  width: 550px;
+  height: 600px;
+  /* border: #08060d solid 1px; */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+.login label{
+  justify-content: left;
+  text-align: left;
+  margin: 0;
+  width: 500px;
+}
+.login input{
+  width: 500px;
+}
+.login button{
+  text-align: center;
+  background-color: blue;
+  color: white;
+  /* TRouBLe: Top | Right | Bottom | Left */
+  padding: 10px 15px 10px 15px;
+  margin: 10px 0px 10px 0px;
+  width: 500px;
+}
+.login h1{
+  text-align: center;
+}
+.register-link{
+  text-align: center;
+  padding: 20px;
+}
+.login-form button{
+  align-items: center;
+  justify-content: center;
+}
+
+/* Not found */
+
+.notfound{
+  text-align: center;
+  justify-content: center;
+  /* align-items: center; */
+  margin: auto;
+  /* height: 100vh; */
+  /* width: 100vw; */
+}
+
+/* signup - form */
+
+.signup-form{
+  margin-top: 100px;
+  justify-content: center;
+  width: 550px;
+  height: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
+.signup-button{
+  padding: 10px 15px 10px 15px;
+  margin: 10px 0px 10px 0px;
+  width: 490px;
+  border-radius: 10px;
+  background-color: blue;
+  color: white;
+}
+.signup-button:hover{
+  color: black;
+  background-color: white;
+  border: #08060d solid 1px;
+}
+.signup-form p{
+ text-align: center;
 }
