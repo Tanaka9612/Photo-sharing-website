@@ -297,3 +297,19 @@ p {
   width: 200px;
 }
 /* End of navbar */
+
+/* post component css */
+
+.post{
+  margin: 0;
+  display: flex;
+  
+}
+.posy-image{
+  width: 75%;
+}
+.post-comments{
+  width: 25%;
+}
+
+/* end of post component */
