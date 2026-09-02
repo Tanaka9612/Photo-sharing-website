@@ -4,10 +4,12 @@ function PostFeed({posts}){
     return (
         <>
             { 
-                posts.map((post, index) =>{ return(
-                    <div key={index}>
-                        <Post post={post}/>
-                    </div>)
+                posts.map((post, index) =>{ 
+                    return(
+                        <div key={index}>
+                            <Post post={post}/>
+                        </div>
+                    )
                 })
             }
                 

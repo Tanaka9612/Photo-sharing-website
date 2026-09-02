@@ -21,7 +21,7 @@ function SplashPage(){
                     <div id="side-images">
                         <img className="animate__animated animate__fadeInDown" id="alyona" src="/frontend/src/assets/alyona-nagel.jpg" alt="alyona" srcset="" />
                         <img className="animate__animated animate__fadeInRight" id="pervane" src="/frontend/src/assets/pervane.jpg" alt="pervane" srcset="" />
-                        <img className="animate__animated animate__fadeInUp" id="samert" src="/frontend/src/assets/samert.jpg" alt="samert" srcset="" />
+                        <img className="animate__animated animate__fadeInUp" id="samert" src="/frontend/src/assets/demo.jpg" alt="samert" srcset="" />
                     </div>
                 </div>
                 <div id="features"></div>
