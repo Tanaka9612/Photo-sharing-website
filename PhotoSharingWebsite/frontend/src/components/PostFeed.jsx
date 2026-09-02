@@ -4,10 +4,10 @@ function PostFeed({posts}){
     return (
         <>
             { 
-                posts.map((post, index) =>{
+                posts.map((post, index) =>{ return(
                     <div key={index}>
                         <Post post={post}/>
-                    </div>
+                    </div>)
                 })
             }
                 

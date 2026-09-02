@@ -12,6 +12,7 @@
   "dependencies": {
     "@lineiconshq/free-icons": "^1.0.6",
     "@lineiconshq/react-lineicons": "^1.0.5",
+    "animate.css": "^4.1.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.2"
