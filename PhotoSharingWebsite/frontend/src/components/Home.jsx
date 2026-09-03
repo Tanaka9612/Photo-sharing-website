@@ -65,7 +65,6 @@ const posts = [
       }
     ]
   },
-
   {
     id: 4,
     username: "@michael",
