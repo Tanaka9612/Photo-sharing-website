@@ -10,6 +10,7 @@ import NotFound from './components/NotFound'
 import Profile from './components/Profile';
 import Settings from './components/Settings';
 import Admin from './components/Admin';
+import Upload from './components/Upload';
 
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home/>}/>
         <Route path='/profile' element={<Profile/>}/>
+        <Route path='/upload' element={<Upload/>}/>
         <Route path='/settings' element={<Settings/>}/>
         <Route path='/admin' element={<Admin/>}/>
         <Route path="*" element={<NotFound/>}/>

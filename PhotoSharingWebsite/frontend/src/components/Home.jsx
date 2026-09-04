@@ -7,7 +7,7 @@ const posts = [
     id: 1,
     username: "@sarah",
     caption: "A beautiful moment captured today.",
-    image: "/frontend/src/assets/demo.jpg",
+    image: "/src/assets/demo.jpg",
     comments: [
       {
         username: "@john",
@@ -28,7 +28,7 @@ const posts = [
     id: 2,
     username: "@john",
     caption: "Sometimes the simplest moments make the best photos.",
-    image: "/frontend/src/assets/demo.jpg",
+    image: "/src/assets/demo.jpg",
     comments: [
       {
         username: "@sarah",
@@ -49,7 +49,7 @@ const posts = [
     id: 3,
     username: "@amy",
     caption: "Exploring new places and seeing things differently.",
-    image: '/frontend/src/assets/demo.jpg',
+    image: '/src/assets/demo.jpg',
     comments: [
       {
         username: "@john",
@@ -69,7 +69,7 @@ const posts = [
     id: 4,
     username: "@michael",
     caption: "Photography is about capturing moments that words cannot describe.",
-    image: "/frontend/src/assets/demo.jpg",
+    image: "/src/assets/demo.jpg",
     comments: [
       {
         username: "@amy",
@@ -90,7 +90,7 @@ const posts = [
     id: 5,
     username: "@lisa",
     caption: "Another day, another photograph worth remembering.",
-    image: "/frontend/src/assets/demo.jpg",
+    image: "/src/assets/demo.jpg",
     comments: [
       {
         username: "@michael",
