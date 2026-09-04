@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Upload.css";
+import "./upload.css";
 
 function Upload() {
 
