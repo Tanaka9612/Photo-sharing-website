@@ -1,9 +1,9 @@
 https://github.com/Tanaka9612/Photo-sharing-website
 
 running commands individually
-docker build -t frontend:latest .
+docker build -t frontend .
 docker run -p 5173:5173 frontend
-docker build -t backend:latest .
+docker build -t backend .
 docker run -p 5000:5000 backend
 
 command to run all at once
