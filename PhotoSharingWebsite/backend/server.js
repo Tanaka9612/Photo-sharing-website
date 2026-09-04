@@ -10,13 +10,11 @@ app.use(express.json());
 const users = [
     {
         id: 1,
-        username: "sarah",
         email: "sarah@gmail.com",
         password: "1234"
     },
     {
         id: 2,
-        username: "john",
         email: "john@gmail.com",
         password: "1234"
     }
@@ -40,13 +38,12 @@ app.post("/login", (req, res) => {
         message: "Login successful",
         user: {
             id: user.id,
-            username: user.username,
             email: user.email
         }
     });
 });
 app.post("/register", (req, res) => {
-    const { username, email, password, password2 } = req.body;
+    const {email, password, password2 } = req.body;
 
     if(password != password2){
         return res.status(401).json({
@@ -56,14 +53,13 @@ app.post("/register", (req, res) => {
     else{
         const newUser = {
             id: users.length + 1,
-            username,
             email,
             password,
             password2
         };
 
         users.push(newUser);
-
+        console.log(users);
         res.json({
             message: "Registration successful",
             user: newUser

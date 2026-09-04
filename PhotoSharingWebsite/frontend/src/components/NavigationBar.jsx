@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Lineicons } from "@lineiconshq/react-lineicons";
 import {Bell1Outlined, Message2Stroke } from "@lineiconshq/free-icons"
+import Profile from "./Profile";
 function NavigationBar(){
     return (
         <nav className="nav-bar">
@@ -13,6 +14,7 @@ function NavigationBar(){
             <Link>Upload</Link>
             <Lineicons icon={Bell1Outlined} color="black" size={40}/>
             <Lineicons icon={Message2Stroke} color="blue" size={40}/>
+            <Link to='/profile' element={<Profile/>}>Profile</Link>
         </nav>
     )
 }

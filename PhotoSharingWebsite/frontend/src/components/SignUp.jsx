@@ -7,6 +7,7 @@ function SignUp(){
     const[email, setEmail] = useState('');
     const[password, setPassword] = useState("");
     const[password2, setPassword2] = useState("");
+
     const navigate = useNavigate();
 
     const handleSignUp = async(e)=>{
@@ -18,7 +19,7 @@ function SignUp(){
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    username,
+                    // username,
                     email,
                     password,
                     password2
