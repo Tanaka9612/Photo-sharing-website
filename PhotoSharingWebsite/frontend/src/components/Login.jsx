@@ -9,7 +9,7 @@ function Login(){
     const handleLogin = async(e)=>{
        e.preventDefault();
         try{
-            const response = await fetch("http://localhost:5000/login", {
+            const response = await fetch("http://localhost:5000/api/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -22,12 +22,23 @@ function Login(){
 
             const data = await response.json();
             if (response.ok) {
-                console.log("Login successful!");
-                console.log(data.user);
 
-                navigate("/home"); // navigate to home
+                console.log("Login successful!");
+                console.log(data);
+
+                localStorage.setItem("token", data.token);
+
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(data.user)
+                );
+
+                navigate("/profile");
+
             } else {
+
                 console.log(data.message);
+
             }
         }
         catch(error){

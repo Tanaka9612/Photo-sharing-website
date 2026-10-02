@@ -2,43 +2,68 @@ import React from "react";
 import SideNav from "./SideNav";
 import Upload from "./Upload";
 import { Link } from "react-router";
+import{ useEffect, useState } from "react";
 
 function Profile() {
 
-    const posts = [
-        {
-            id: 1,
-            image: "/src/assets/demo.jpg"
-        },
-        {
-            id: 2,
-            image: "/src/assets/demo.jpg"
-        },
-        {
-            id: 3,
-            image: "/src/assets/demo.jpg"
-        },
-        {
-            id: 4,
-            image: "/src/assets/demo.jpg"
-        },
-        {
-            id: 5,
-            image: "/src/assets/demo.jpg"
-        },
-        {
-            id: 6,
-            image: "/src/assets/demo.jpg"
-        },
-        {
-            id: 7,
-            image: "/src/assets/demo.jpg"
-        },
-        {
-            id: 8,
-            image: "/src/assets/demo.jpg"
-        }
-    ];
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+
+        const getUser = async () => {
+
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                console.log("No token found");
+                setLoading(false);
+                return;
+            }
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:5000/api/users/me",
+                    {
+                        method: "GET",
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        }
+                    }
+                );
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    setUser(data);
+                } else {
+                    console.log(data.message);
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Error getting user:",
+                    error
+                );
+
+            } finally {
+
+                setLoading(false);
+            }
+        };
+
+        getUser();
+
+    }, []);
+    if (loading) {
+    return <p>Loading profile...</p>;
+    }
+
+    if (!user) {
+        return <p>Please log in.</p>;
+    }
 
     return (
         <div className="profile-page">
@@ -66,27 +91,30 @@ function Profile() {
                         <div className="profile-details">
                             <div className="profile-name-row">
                                 <div>
-                                    <h2>You</h2>
-                                    <p className="username">@yourusername</p>
-                                </div>
-                                <div className="profile-actions">
-                                    <Link to="/upload" element={<Upload/>} className="edit-button">Edit Profile</Link>
+                                    <h2>{user?.username}</h2>
 
-                                    <button className="settings-button">⚙</button>
+                                    <p className="username">
+                                        @{user?.username}
+                                    </p>
+                                </div>
+
+                                <div className="profile-actions">
+                                    <Link
+                                        to="/edit-profile"
+                                        className="edit-button"
+                                    >
+                                        Edit Profile
+                                    </Link>
+
+                                    <button className="settings-button">
+                                        ⚙
+                                    </button>
                                 </div>
                             </div>
-                            <p className="bio">Capturing life, one frame at a time. </p>
-                            <div className="profile-meta">
-                                <span>
-                                    📍 Johannesburg, South Africa
-                                </span>
-                                <span>
-                                    🔗 <u>yourwebsite.com</u>
-                                </span>
-                                <span>
-                                    📅 Joined March 2022
-                                </span>
-                            </div>
+
+                            <p className="bio">
+                                {user?.bio || "No bio yet."}
+                            </p>
                         </div>
                     </div>
                     <div className="profile-stats">
@@ -124,7 +152,7 @@ function Profile() {
                     </button>
                 </div>
                 <section className="photo-grid">
-                    {posts.map((post) => (
+                    {/* {posts.map((post) => (
                         <div
                             className="profile-post"
                             key={post.id}
@@ -134,7 +162,7 @@ function Profile() {
                                 alt={`Post ${post.id}`}
                             />
                         </div>
-                    ))}
+                    ))} */}
                 </section>
             </main>
         </div>

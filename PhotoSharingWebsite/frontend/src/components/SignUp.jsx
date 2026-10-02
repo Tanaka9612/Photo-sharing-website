@@ -4,46 +4,67 @@ import { useState } from "react";
 
 function SignUp(){
 
+    const[username, setUsername] = useState("");
     const[email, setEmail] = useState('');
     const[password, setPassword] = useState("");
     const[password2, setPassword2] = useState("");
 
     const navigate = useNavigate();
 
-    const handleSignUp = async(e)=>{
-        e.preventDefault();
-        try{
-            const response = await fetch("http://localhost:5000/register", {
+    const handleSignUp = async (e) => {
+    e.preventDefault();
+
+    if (password !== password2) {
+        console.log("Passwords do not match");
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            "http://localhost:5000/api/auth/register",
+            {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    // username,
+                    username,
                     email,
                     password,
                     password2
                 })
-            });
-            const data = await response.json();
-            if (response.ok) {
-                console.log("Login successful!");
-                console.log(data.user);
-
-                navigate("/profile"); // navigate to home
-            } else {
-                console.log(data.message);
             }
-        }catch(e){
-            console.error("Registration error: ",e);
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log("Registration successful!");
+            console.log(data.user);
+
+            navigate("/profile");
+        } else {
+            console.log(data.message);
         }
 
+    } catch (error) {
+        console.error("Registration error:", error);
     }
+};
 
     return(
         <div className="signup-form">
             <h1>Sign up here</h1>
             <form onSubmit={handleSignUp}>
+                <div className="form-group">
+                    <label className="form-label">Username</label>
+                    <input
+                        className="form-control"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        type="text"
+                    />
+                </div>
                 <div className="form-group">
                     <label className="form-label" htmlFor="">Email</label>
                     <input className="form-control"  
