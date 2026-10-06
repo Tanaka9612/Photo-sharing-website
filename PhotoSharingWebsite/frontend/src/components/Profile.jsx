@@ -10,19 +10,14 @@ function Profile() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-
         const getUser = async () => {
-
             const token = localStorage.getItem("token");
-
             if (!token) {
                 console.log("No token found");
                 setLoading(false);
                 return;
             }
-
-            try {
-
+            try{
                 const response = await fetch(
                     "http://localhost:5000/api/users/me",
                     {
@@ -32,45 +27,35 @@ function Profile() {
                         }
                     }
                 );
-
                 const data = await response.json();
-
                 if (response.ok) {
                     setUser(data);
                 } else {
                     console.log(data.message);
                 }
-
             } catch (error) {
-
                 console.error(
                     "Error getting user:",
                     error
                 );
-
             } finally {
-
                 setLoading(false);
             }
         };
-
         getUser();
-
     }, []);
     if (loading) {
     return <p>Loading profile...</p>;
     }
-
     if (!user) {
         return <p>Please log in.</p>;
     }
-
     return (
         <div className="profile-page">
             <SideNav/>
             <main className="profile-content">
                 <h1 className="profile-page-title">
-                    Profile<span>(Your Profile)</span>
+                    Profile<span>({user.username})</span>
                 </h1>
                 <section className="profile-header">
                     <div className="cover-container">
@@ -106,9 +91,9 @@ function Profile() {
                                         Edit Profile
                                     </Link>
 
-                                    <button className="settings-button">
-                                        ⚙
-                                    </button>
+                                    <Link className="settings-button">
+                                        upload
+                                    </Link>
                                 </div>
                             </div>
 
@@ -119,7 +104,7 @@ function Profile() {
                     </div>
                     <div className="profile-stats">
                         <div className="stat">
-                            <strong>128</strong>
+                            <strong>{user.posts}</strong>
                             <span>Posts</span>
                         </div>
                         <div className="stat">

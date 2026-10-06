@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-
-
 function Login(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -19,34 +17,30 @@ function Login(){
                     password: password
                 })
             });
-
             const data = await response.json();
             if (response.ok) {
-
                 console.log("Login successful!");
                 console.log(data);
-
                 localStorage.setItem("token", data.token);
-
                 localStorage.setItem(
                     "user",
                     JSON.stringify(data.user)
                 );
-
-                navigate("/profile");
-
+                if(data.user.role === 'admin'){
+                    navigate("/admin-dashboard");
+                }
+                else{
+                    navigate("/profile");
+                }
+                
             } else {
-
                 console.log(data.message);
-
             }
         }
         catch(error){
             console.error("Login error:", error);
         }
     }
-
-
     return(
         <div className="login">
             <h1>Login Here</h1>
@@ -74,5 +68,4 @@ function Login(){
         </div>
     )
 }
-
 export default Login;

@@ -12,6 +12,7 @@ import Settings from './components/Settings';
 import Admin from './components/Admin';
 import Upload from './components/Upload';
 import EditProfile from './components/EditProfile';
+import AdminDashboard from './components/AdminDashboard';
 
 
 
@@ -27,6 +28,7 @@ function App() {
         <Route path='/upload' element={<Upload/>}/>
         <Route path='/settings' element={<Settings/>}/>
         <Route path='/admin' element={<Admin/>}/>
+        <Route path="/admin-dashboard" element={<AdminDashboard />}/>
         <Route path='/edit-profile' element={<EditProfile />}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>

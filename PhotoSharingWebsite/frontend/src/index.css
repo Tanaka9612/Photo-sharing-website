@@ -335,7 +335,28 @@ p {
   border-radius: 10px;
   
 }
+.post-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 15px 0;
+}
 
+.like-button,
+.liked {
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.like-button {
+    color: black;
+}
+
+.liked {
+    color: red;
+}
 .comments{
   padding: 10px;
   border-radius: 5px;

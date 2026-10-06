@@ -1,35 +1,26 @@
 import express from "express";
+import protect from "../middleware/authMiddleware.js";
+import {
+    createPost,
+    likePost
+} from "../controllers/postController.js";
+import upload from "../middleware/uploadMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.json({
-        message: "Get posts"
-    });
-});
+// Create a post
+router.post(
+    "/",
+    protect,
+    upload.single("image"),
+    createPost
+);
 
-router.get("/:id", (req, res) => {
-    res.json({
-        message: "Get single post"
-    });
-});
-
-router.post("/", (req, res) => {
-    res.json({
-        message: "Create post"
-    });
-});
-
-router.put("/:id", (req, res) => {
-    res.json({
-        message: "Update post"
-    });
-});
-
-router.delete("/:id", (req, res) => {
-    res.json({
-        message: "Delete post"
-    });
-});
+// Like / unlike a post
+router.post(
+    "/:id/like",
+    protect,
+    likePost
+);
 
 export default router;

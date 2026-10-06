@@ -12,6 +12,7 @@ import friendshipRoutes from "./routes/friendshipRoutes.js";
 import feedRoutes from "./routes/feedRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 
+
 dotenv.config();
 
 const app = express();
@@ -20,6 +21,8 @@ connectDB();
 
 app.use(cors());
 app.use(express.json());
+
+app.use("/uploads", express.static("uploads"));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
