@@ -81,43 +81,19 @@ function SideNav() {
                     <span>Home</span>
                 </Link>
 
-                <Link to="/discover" className="nav-item">
-                    <span className="nav-icon"><Lineicons icon={DiscoverOutlined} size={20} color="black"/></span>
-                    <span>Discover</span>
-                </Link>
-
-                <Link to="/following" className="nav-item">
-                    <span className="nav-icon"><Lineicons icon={FriendliOutlined} size={20} color="black"/></span>
-                    <span>Following</span>
-                </Link>
-
-                <Link to="/activity" className="nav-item">
-                    <span className="nav-icon"><Lineicons icon={Flower2Outlined} size={20} color="black"/></span>
-                    <span>Activity</span>
-                </Link>
 
                 <Link to="/collections" className="nav-item">
                     <span className="nav-icon">▢</span>
                     <span>Collections</span>
                 </Link>
 
-                <Link to="/messages" className="nav-item">
-                    <span className="nav-icon"><Lineicons icon={Message2Outlined} size={20} color="black"/></span>
-                    <span>Messages</span>
-                </Link>
-
-                <Link to="/bookmarks" className="nav-item">
-                    <span className="nav-icon"><Lineicons icon={Bookmark1Outlined} size={20} color="black"/></span>
-                    <span>Bookmarks</span>
-                </Link>
-
                 <Link to="/settings" className="nav-item">
                     <span className="nav-icon"><Lineicons icon={Gear1Outlined} size={20} color="black"/></span>
-                    <span>Settings</span>
+                    <span><Link to="edit-profile">Settings</Link></span>
                 </Link>
                 {user?.role === "admin" && (
 
-                    <Link to="/admin">
+                    <Link to="/admin-dashboard" className="nav-item">
                         Admin Dashboard
                     </Link>
 

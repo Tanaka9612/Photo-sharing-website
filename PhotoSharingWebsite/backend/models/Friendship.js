@@ -1,37 +1,30 @@
 import mongoose from "mongoose";
 
-const albumSchema = new mongoose.Schema(
+const friendshipSchema = new mongoose.Schema(
     {
-        user: {
+        requester: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true
         },
-
-        name: {
-            type: String,
-            required: true,
-            trim: true,
-            maxlength: 100
+        recipient: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true
         },
-
-        description: {
+        status: {
             type: String,
-            maxlength: 500,
-            default: ""
-        },
-
-        coverImage: {
-            type: String,
-            default: ""
+            enum: ["pending", "accepted"],
+            default: "pending"
         }
     },
-
-    {
-        timestamps: true
-    }
+    { timestamps: true }
 );
 
-const Album = mongoose.model("Album", albumSchema);
+// Prevent duplicate relationships in the same direction.
+friendshipSchema.index(
+    { requester: 1, recipient: 1 },
+    { unique: true }
+);
 
-export default Album;
+export default mongoose.model("Friendship", friendshipSchema);

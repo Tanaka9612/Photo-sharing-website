@@ -1,11 +1,11 @@
+
 import express from "express";
+import { getFeed } from "../controllers/feedController.js";
+import { optionalAuth } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.json({
-        message: "Get FrameFlow feed"
-    });
-});
+// GET /api/feed
+router.get("/", optionalAuth, getFeed);
 
 export default router;

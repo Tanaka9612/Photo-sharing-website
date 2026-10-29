@@ -1,120 +1,78 @@
-import NavigationBar from './NavigationBar';
-import PostFeed from './PostFeed'
+import { useEffect, useState } from "react";
+import NavigationBar from "./NavigationBar";
+import PostFeed from "./PostFeed";
 
+function Home() {
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-const posts = [
-  {
-    id: 1,
-    username: "@sarah",
-    caption: "A beautiful moment captured today.",
-    image: "/src/assets/demo.jpg",
-    comments: [
-      {
-        username: "@john",
-        text: "This photo looks amazing!"
-      },
-      {
-        username: "@amy",
-        text: "I love the lighting in this."
-      },
-      {
-        username: "@michael",
-        text: "Great shot!"
-      }
-    ]
-  },
+    useEffect(() => {
+        let cancelled = false;
 
-  {
-    id: 2,
-    username: "@john",
-    caption: "Sometimes the simplest moments make the best photos.",
-    image: "/src/assets/demo.jpg",
-    comments: [
-      {
-        username: "@sarah",
-        text: "This is such a nice capture."
-      },
-      {
-        username: "@amy",
-        text: "Really beautiful!"
-      },
-      {
-        username: "@michael",
-        text: "The composition is great."
-      }
-    ]
-  },
+        const fetchFeed = async () => {
+            const token = localStorage.getItem("token");
 
-  {
-    id: 3,
-    username: "@amy",
-    caption: "Exploring new places and seeing things differently.",
-    image: '/src/assets/demo.jpg',
-    comments: [
-      {
-        username: "@john",
-        text: "Where was this taken?"
-      },
-      {
-        username: "@sarah",
-        text: "Such a beautiful view!"
-      },
-      {
-        username: "@michael",
-        text: "I need to visit this place."
-      }
-    ]
-  },
-  {
-    id: 4,
-    username: "@michael",
-    caption: "Photography is about capturing moments that words cannot describe.",
-    image: "/src/assets/demo.jpg",
-    comments: [
-      {
-        username: "@amy",
-        text: "I completely agree!"
-      },
-      {
-        username: "@sarah",
-        text: "Beautifully said."
-      },
-      {
-        username: "@john",
-        text: "And this photo proves it."
-      }
-    ]
-  },
+            try {
+                const headers = token
+                    ? { Authorization: `Bearer ${token}` }
+                    : {};
+                const response = await fetch("http://localhost:5000/api/feed", {
+                    headers,
+                });
+                const data = await response.json();
 
-  {
-    id: 5,
-    username: "@lisa",
-    caption: "Another day, another photograph worth remembering.",
-    image: "/src/assets/demo.jpg",
-    comments: [
-      {
-        username: "@michael",
-        text: "Amazing photo!"
-      },
-      {
-        username: "@john",
-        text: "The details are incredible."
-      },
-      {
-        username: "@sarah",
-        text: "Love this one ❤️"
-      }
-    ]
-  }
-];
+                if (!response.ok) {
+                    throw new Error(data.message || "Unable to load posts.");
+                }
 
-function Home(){
-    return(
-        <div className="home">
-            <NavigationBar/>
-            <PostFeed posts={posts}/>
-        </div>
-    )
+                if (!Array.isArray(data)) {
+                    throw new Error("The server returned an invalid posts list.");
+                }
+
+                if (!cancelled) {
+                    setPosts(data);
+                }
+            } catch (fetchError) {
+                if (!cancelled) {
+                    setError(fetchError.message || "Unable to connect to the server.");
+                }
+            } finally {
+                if (!cancelled) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        fetchFeed();
+
+        return () => {
+            cancelled = true;
+        };
+    }, []);
+
+    return (
+        <>
+            <NavigationBar />
+            <main className="mx-auto min-h-screen max-w-7xl px-4 pb-10 pt-24 sm:px-6 lg:px-8">
+                {loading ? (
+                    <p role="status" className="text-center text-gray-600">
+                        Loading posts...
+                    </p>
+                ) : error ? (
+                    <div role="alert" className="text-center text-red-600">
+                        <p>{error}</p>
+                    </div>
+                ) : posts.length === 0 ? (
+                    <p className="text-center text-gray-600">
+                        No posts have been shared yet.
+                    </p>
+                ) : (
+                    <PostFeed posts={posts} />
+                )}
+            </main>
+        </>
+    );
 }
 
 export default Home;

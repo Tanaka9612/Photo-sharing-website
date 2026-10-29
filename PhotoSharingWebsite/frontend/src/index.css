@@ -29,8 +29,8 @@
     font-size: 16px;
   }
 }
-
-
+/* needed to make tailwind work unbelievable */
+@import "tailwindcss";
 
 body {
   margin: 0;

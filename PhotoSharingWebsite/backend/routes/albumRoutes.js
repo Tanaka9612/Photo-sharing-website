@@ -1,35 +1,20 @@
 import express from "express";
+import {
+    createAlbum,
+    deleteAlbum,
+    getAlbum,
+    getAlbums,
+    updateAlbum
+} from "../controllers/albumController.js";
+import protect from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.json({
-        message: "Get albums"
-    });
-});
-
-router.get("/:id", (req, res) => {
-    res.json({
-        message: "Get album"
-    });
-});
-
-router.post("/", (req, res) => {
-    res.json({
-        message: "Create album"
-    });
-});
-
-router.put("/:id", (req, res) => {
-    res.json({
-        message: "Update album"
-    });
-});
-
-router.delete("/:id", (req, res) => {
-    res.json({
-        message: "Delete album"
-    });
-});
+router.use(protect);
+router.get("/", getAlbums);
+router.post("/", createAlbum);
+router.get("/:id", getAlbum);
+router.put("/:id", updateAlbum);
+router.delete("/:id", deleteAlbum);
 
 export default router;

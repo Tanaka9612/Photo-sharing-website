@@ -1,4 +1,6 @@
 import User from "../models/User.js";
+import Post from "../models/Post.js";
+import Collection from "../models/Collection.js";
 
 export const getMe = async (req, res) => {
     try {
@@ -11,7 +13,30 @@ export const getMe = async (req, res) => {
             });
         }
 
-        res.status(200).json(user);
+        const [postsCount, likesResult, collectionsCount] = await Promise.all([
+            Post.countDocuments({ user: user._id }),
+            Post.aggregate([
+                { $match: { user: user._id } },
+                {
+                    $group: {
+                        _id: null,
+                        likesReceived: {
+                            $sum: { $size: { $ifNull: ["$likes", []] } }
+                        }
+                    }
+                }
+            ]),
+            Collection.countDocuments({ user: user._id })
+        ]);
+
+        res.status(200).json({
+            ...user.toObject(),
+            postsCount,
+            followersCount: user.followers.length,
+            followingCount: user.following.length,
+            collectionsCount,
+            likesReceived: likesResult[0]?.likesReceived ?? 0
+        });
 
     } catch (error) {
         console.error("Get user error:", error);

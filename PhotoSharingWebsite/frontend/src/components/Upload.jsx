@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./upload.css";
-
+import { useNavigate } from "react-router-dom";
 function Upload() {
-
+    const navigate = useNavigate();
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
     const [caption, setCaption] = useState("");
@@ -37,41 +37,48 @@ function Upload() {
             setMessage("Please select an image first.");
             return;
         }
+        const token = localStorage.getItem("token");
+        if (!token) {
+            setMessage("You are not logged in. Please log in first.");
+            return;
+        }
         setUploading(true);
         setMessage("");
         try {
-
             const formData = new FormData();
             formData.append("image", image);
             formData.append("caption", caption);
+            const response = await fetch("http://localhost:5000/api/posts", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                body: formData
+            });
+    
+            const responseText = await response.text();
+            let data;
 
-            const response = await fetch(
-                "http://localhost:5000/api/posts",
-                {
-                    method: "POST",
-                    body: formData
-                }
-            );
-            const data = await response.json();
+            try {
+                data = JSON.parse(responseText);
+            } catch {
+                console.error("Backend returned HTML or invalid JSON:", responseText);
+                throw new Error("The server returned an unexpected error. Check the backend terminal.");
+            }
+
             if (!response.ok) {
                 throw new Error(data.message || "Upload failed.");
             }
+
             setMessage("Image uploaded successfully!");
-            // Clear form
             setImage(null);
             setPreview(null);
             setCaption("");
-
+            navigate("/profile");
         } catch (error) {
-
             console.error("Upload error:", error);
-
-            setMessage(
-                error.message || "Something went wrong while uploading."
-            );
-
+            setMessage(error.message || "Something went wrong while uploading.");
         } finally {
-
             setUploading(false);
         }
     };
