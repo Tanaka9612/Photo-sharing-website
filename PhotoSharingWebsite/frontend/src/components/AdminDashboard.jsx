@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_URL, assetUrl } from "../config/api";
 
 function AdminDashboard() {
 
@@ -21,7 +22,7 @@ function AdminDashboard() {
             try {
                 const [usersResponse, postsResponse] =
                     await Promise.all([
-                        fetch("http://localhost:5000/api/admin/users",
+                        fetch(`${API_URL}/admin/users`,
                             {
                                 headers: {
                                     Authorization:
@@ -29,7 +30,7 @@ function AdminDashboard() {
                                 }
                             }
                         ),
-                        fetch("http://localhost:5000/api/admin/posts",
+                        fetch(`${API_URL}/admin/posts`,
                             {
                                 headers: {
                                     Authorization:
@@ -81,7 +82,7 @@ function AdminDashboard() {
             localStorage.getItem("token");
         try{
             const response = await fetch(
-                `http://localhost:5000/api/admin/users/${id}`,
+                `${API_URL}/admin/users/${id}`,
                 {
                     method: "DELETE",
 
@@ -120,7 +121,7 @@ function AdminDashboard() {
             localStorage.getItem("token");
         try {
             const response = await fetch(
-                `http://localhost:5000/api/admin/posts/${id}`,
+                `${API_URL}/admin/posts/${id}`,
                 {
                     method: "DELETE",
 
@@ -228,7 +229,7 @@ function AdminDashboard() {
                                     <div className="flex min-w-0 items-center gap-3">
                                         {user.profilePicture ? (
                                             <img
-                                                src={`http://localhost:5000${user.profilePicture}`}
+                                                src={assetUrl(user.profilePicture)}
                                                 alt=""
                                                 className="h-11 w-11 rounded-full border border-slate-200 object-cover"
                                             />
@@ -296,7 +297,7 @@ function AdminDashboard() {
                                 >
                                     {post.imageUrl ? (
                                         <img
-                                            src={`http://localhost:5000${post.imageUrl}`}
+                                            src={assetUrl(post.imageUrl)}
                                             alt={post.caption || "Community post"}
                                             className="aspect-[4/3] w-full bg-slate-100 object-cover"
                                         />

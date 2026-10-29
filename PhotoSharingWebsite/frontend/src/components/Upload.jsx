@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./upload.css";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../config/api";
 function Upload() {
     const navigate = useNavigate();
     const [image, setImage] = useState(null);
@@ -48,7 +49,7 @@ function Upload() {
             const formData = new FormData();
             formData.append("image", image);
             formData.append("caption", caption);
-            const response = await fetch("http://localhost:5000/api/posts", {
+            const response = await fetch(`${API_URL}/posts`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`

@@ -1,117 +1,115 @@
-import React from "react";
-import { Link ,useNavigate} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Lineicons } from "@lineiconshq/react-lineicons";
-import {Home2Bulk, 
-    Bookmark1Outlined,
-    Search1Outlined,
-    Gear1Outlined,
-    Flower2Outlined,
-    Message2Outlined,
-    DiscoverOutlined,
-    LocationArrowRightOutlined,
-    FriendliOutlined
-} from "@lineiconshq/free-icons"
-import Home from "./Home";
-import { useState } from "react";
-import { useEffect } from "react";
-// import "./ProfileSidebar.css";
+import { Gear1Outlined, Home2Bulk } from "@lineiconshq/free-icons";
+import { API_URL } from "../config/api";
 
 function SideNav() {
     const navigate = useNavigate();
-    const [user, setuser] = useState("");
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    useEffect(()=>{
-        const getUser = async()=>{
+
+    useEffect(() => {
+        const getUser = async () => {
             const token = localStorage.getItem("token");
-            if(!token){
-                console.log("No token found");
+            if (!token) {
                 setLoading(false);
                 return;
             }
-            try{
-                const response = await fetch("http://localhost:5000/api/users/me",{
-                    method: "GET",
-                    headers:{
-                        "Authorization":`Bearer ${token}`
-                    }
-                })
+
+            try {
+                const response = await fetch(`${API_URL}/users/me`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 const data = await response.json();
-                if(response.ok){
-                    setuser(data);
-                }else{
-                    console.log(data.message);
+                if (response.ok) {
+                    setUser(data);
+                } else {
+                    console.error(data.message || "Could not load user.");
                 }
-            }catch(error){
-                console.log(error.message)
-            }finally{
+            } catch (error) {
+                console.error("Could not load navigation user:", error);
+            } finally {
                 setLoading(false);
             }
         };
+
         getUser();
-        
-    }, [])
-    const handleLogout=()=>{
+    }, []);
+
+    const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-
-        // Send user back to login
         navigate("/login");
+    };
+
+    if (loading) {
+        return <p className="p-3 text-sm text-slate-500">Loading navigation...</p>;
     }
-    if(loading){
-        return <p>Loading...</p>
+
+    if (!user) {
+        return (
+            <aside className="profile-sidebar">
+                <NavLink to="/login" className="nav-item">
+                    Log in
+                </NavLink>
+            </aside>
+        );
     }
-    if(!user){
-        return <div>
-            <p>Please Login here <Link to={<Login/>}>Login</Link></p>
-        </div>
-    }
+
+    const navigationItems = [
+        {
+            to: "/home",
+            label: "Home",
+            icon: <Lineicons icon={Home2Bulk} size={18} color="currentColor" />,
+        },
+        { to: "/profile", label: "Profile", icon: "◎" },
+        { to: "/collections", label: "Collections", icon: "▢" },
+        {
+            to: "/edit-profile",
+            label: "Settings",
+            icon: <Lineicons icon={Gear1Outlined} size={18} color="currentColor" />,
+        },
+        ...(user.role === "admin"
+            ? [{ to: "/admin-dashboard", label: "Admin", icon: "✦" }]
+            : []),
+    ];
+
     return (
         <aside className="profile-sidebar">
+            <NavLink to="/home" className="sidebar-logo">
+                FrameFlow
+            </NavLink>
 
-            {/* Logo */}
-            <div className="sidebar-logo">
-                <span>FrameFlow</span>
-            </div>
+            <nav className="sidebar-nav" aria-label="Main navigation">
+                {navigationItems.map(({ to, label, icon }) => (
+                    <NavLink
+                        key={to}
+                        to={to}
+                        className={({ isActive }) =>
+                            `nav-item ${isActive ? "active" : ""}`
+                        }
+                    >
+                        <span className="nav-icon" aria-hidden="true">
+                            {icon}
+                        </span>
+                        <span>{label}</span>
+                    </NavLink>
+                ))}
 
-            {/* Navigation */}
-            <nav className="sidebar-nav">
-
-                <Link to="/home" element={<Home/>} className="nav-item active">
-                    <span className="nav-icon"><Lineicons icon={Home2Bulk} size={20} color="black"/></span>
-                    <span>Home</span>
-                </Link>
-
-
-                <Link to="/collections" className="nav-item">
-                    <span className="nav-icon">▢</span>
-                    <span>Collections</span>
-                </Link>
-
-                <Link to="/settings" className="nav-item">
-                    <span className="nav-icon"><Lineicons icon={Gear1Outlined} size={20} color="black"/></span>
-                    <span><Link to="edit-profile">Settings</Link></span>
-                </Link>
-                {user?.role === "admin" && (
-
-                    <Link to="/admin-dashboard" className="nav-item">
-                        Admin Dashboard
-                    </Link>
-
-                )}
                 <button
-                    className="logout-button"
+                    type="button"
+                    className="nav-logout"
                     onClick={handleLogout}
                 >
-                    Logout
+                    <span aria-hidden="true">↪</span>
+                    <span>Log out</span>
                 </button>
-
             </nav>
 
-            {/* Bottom section */}
-            <div className="sidebar-more">
-                More
-            </div>
-
+            <div className="sidebar-more">Signed in as {user.username}</div>
         </aside>
     );
 }

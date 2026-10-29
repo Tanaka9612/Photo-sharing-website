@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import NavigationBar from "./NavigationBar";
 import PostFeed from "./PostFeed";
+import { API_URL } from "../config/api";
 
 function Home() {
     const [posts, setPosts] = useState([]);
@@ -17,7 +18,7 @@ function Home() {
                 const headers = token
                     ? { Authorization: `Bearer ${token}` }
                     : {};
-                const response = await fetch("http://localhost:5000/api/feed", {
+                const response = await fetch(`${API_URL}/feed`, {
                     headers,
                 });
                 const data = await response.json();

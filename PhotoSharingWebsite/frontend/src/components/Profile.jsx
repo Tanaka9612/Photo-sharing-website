@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SideNav from "./SideNav";
+import { API_URL, assetUrl } from "../config/api";
 
-const API_URL = "http://localhost:5000/api";
+const primaryButtonClass =
+    "inline-flex min-h-10 items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-50";
+const secondaryButtonClass =
+    "inline-flex min-h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-50";
+const dangerButtonClass =
+    "inline-flex min-h-9 items-center justify-center rounded-xl border border-red-200 bg-white px-3 py-2 text-sm font-semibold text-red-600 transition hover:border-red-300 hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 disabled:cursor-not-allowed disabled:opacity-50";
 
 async function request(path, options = {}) {
     const token = localStorage.getItem("token");
@@ -186,7 +192,7 @@ function Profile() {
                         <div className="profile-picture-container">
                             {user.profilePicture ? (
                                 <img
-                                    src={`http://localhost:5000${user.profilePicture}`}
+                                    src={assetUrl(user.profilePicture)}
                                     alt={`${user.username}'s profile`}
                                     className="profile-picture"
                                 />
@@ -203,10 +209,10 @@ function Profile() {
                                     <p className="username">@{user.username}</p>
                                 </div>
                                 <div className="profile-actions">
-                                    <Link to="/edit-profile" className="edit-button">
+                                    <Link to="/edit-profile" className={primaryButtonClass}>
                                         Edit Profile
                                     </Link>
-                                    <Link to="/upload" className="settings-button">
+                                    <Link to="/upload" className={secondaryButtonClass}>
                                         Upload
                                     </Link>
                                 </div>
@@ -249,7 +255,11 @@ function Profile() {
                             type="button"
                             role="tab"
                             aria-selected={activeTab === tab}
-                            className={`profile-tab ${activeTab === tab ? "active" : ""}`}
+                            className={`inline-flex min-h-10 items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${
+                                activeTab === tab
+                                    ? "bg-blue-600 text-white shadow-sm"
+                                    : "text-slate-600 hover:bg-blue-50 hover:text-blue-700"
+                            }`}
                             onClick={() => setActiveTab(tab)}
                         >
                             {label}
@@ -268,7 +278,7 @@ function Profile() {
                                 aria-label={`View post with ${post.likes?.length || 0} likes and ${post.comments?.length || 0} comments`}
                             >
                                 <img
-                                    src={`http://localhost:5000${post.imageUrl}`}
+                                    src={assetUrl(post.imageUrl)}
                                     alt={post.caption || "Your post"}
                                 />
                             </button>
@@ -306,7 +316,7 @@ function Profile() {
                                             <label key={post._id} className="cursor-pointer text-xs">
                                                 <img
                                                     className="mb-1 aspect-square w-full rounded-md object-cover"
-                                                    src={`http://localhost:5000${post.imageUrl}`}
+                                                    src={assetUrl(post.imageUrl)}
                                                     alt={post.caption || "Your post"}
                                                 />
                                                 <input
@@ -325,7 +335,7 @@ function Profile() {
                             <button
                                 type="submit"
                                 disabled={saving || !posts.length || !selectedPostIds.length}
-                                className="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white disabled:opacity-50"
+                                className={primaryButtonClass}
                             >
                                 {saving ? "Saving..." : "Create album"}
                             </button>
@@ -337,7 +347,7 @@ function Profile() {
                                     {album.posts?.[0] && (
                                         <img
                                             className="h-40 w-full object-cover"
-                                            src={`http://localhost:5000${album.posts[0].imageUrl}`}
+                                            src={assetUrl(album.posts[0].imageUrl)}
                                             alt=""
                                         />
                                     )}
@@ -352,7 +362,7 @@ function Profile() {
                                             type="button"
                                             onClick={() => deleteAlbum(album._id)}
                                             disabled={saving}
-                                            className="text-sm text-red-600 hover:underline"
+                                            className={dangerButtonClass}
                                         >
                                             Delete
                                         </button>
@@ -379,7 +389,7 @@ function Profile() {
                             <button
                                 type="submit"
                                 disabled={saving}
-                                className="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white disabled:opacity-50"
+                                className={primaryButtonClass}
                             >
                                 {saving ? "Saving..." : "Create collection"}
                             </button>
@@ -391,7 +401,7 @@ function Profile() {
                                         {collection.posts?.[0] && (
                                             <img
                                                 className="h-40 w-full object-cover"
-                                                src={`http://localhost:5000${collection.posts[0].imageUrl}`}
+                                                src={assetUrl(collection.posts[0].imageUrl)}
                                                 alt=""
                                             />
                                         )}
@@ -406,7 +416,7 @@ function Profile() {
                                                 type="button"
                                                 onClick={() => deleteCollection(collection._id)}
                                                 disabled={saving}
-                                                className="text-sm text-red-600 hover:underline"
+                                                className={dangerButtonClass}
                                             >
                                                 Delete
                                             </button>
@@ -439,14 +449,14 @@ function Profile() {
                             type="button"
                             onClick={() => setSelectedPost(null)}
                             aria-label="Close post details"
-                            className="absolute right-3 top-3 z-10 rounded-full bg-white px-3 py-1 text-xl shadow"
+                            className="absolute right-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-xl text-slate-700 shadow-sm transition hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                         >
                             ×
                         </button>
                         <div className="flex min-h-64 items-center justify-center bg-gray-950">
                             <img
                                 className="max-h-[80vh] w-full object-contain"
-                                src={`http://localhost:5000${selectedPost.imageUrl}`}
+                                src={assetUrl(selectedPost.imageUrl)}
                                 alt={selectedPost.caption || "Your post"}
                             />
                         </div>

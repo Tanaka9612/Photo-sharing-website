@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { API_URL } from "../config/api";
 
 function EditProfile() {
 
@@ -32,7 +33,7 @@ function EditProfile() {
             try {
 
                 const response = await fetch(
-                    "http://localhost:5000/api/users/me",
+                    `${API_URL}/users/me`,
                     {
                         method: "GET",
                         headers: {
@@ -87,7 +88,7 @@ function EditProfile() {
         setSaving(true);
         try {
             const response = await fetch(
-                "http://localhost:5000/api/users/me",
+                `${API_URL}/users/me`,
                 {
                     method: "PUT",
 

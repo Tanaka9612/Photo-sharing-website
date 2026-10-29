@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { API_URL, assetUrl } from "../config/api";
 
 function Post({ post }) {
     const token = localStorage.getItem("token");
@@ -37,7 +38,7 @@ const handleFollow = async () => {
 
     try {
         const response = await fetch(
-            `http://localhost:5000/api/users/${creatorId}/follow`,
+            `${API_URL}/users/${creatorId}/follow`,
             {
                 method: "POST",
                 headers: {
@@ -75,7 +76,7 @@ const handleFollow = async () => {
 
         try {
             const response = await fetch(
-                `http://localhost:5000/api/posts/${post._id}/like`,
+                `${API_URL}/posts/${post._id}/like`,
                 {
                     method: "POST",
                     headers: {
@@ -115,7 +116,7 @@ const handleFollow = async () => {
         setCommentError("");
         try {
             const response = await fetch(
-                `http://localhost:5000/api/posts/${post._id}/comments`,
+                `${API_URL}/posts/${post._id}/comments`,
                 {
                     method: "POST",
                     headers: {
@@ -155,7 +156,7 @@ const handleFollow = async () => {
         setCollectionsLoading(true);
         setCollectionError("");
         try {
-            const response = await fetch("http://localhost:5000/api/collections", {
+            const response = await fetch(`${API_URL}/collections`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const data = await response.json();
@@ -178,7 +179,7 @@ const handleFollow = async () => {
         setCollectionError("");
         try {
             const response = await fetch(
-                `http://localhost:5000/api/collections/${collectionId}/posts/${post._id}`,
+                `${API_URL}/collections/${collectionId}/posts/${post._id}`,
                 {
                     method: "POST",
                     headers: { Authorization: `Bearer ${token}` },
@@ -219,7 +220,7 @@ const handleFollow = async () => {
                 <div className="flex items-center gap-3 px-5 py-4">
                     {post.user?.profilePicture ? (
                         <img
-                            src={`http://localhost:5000${post.user.profilePicture}`}
+                            src={assetUrl(post.user.profilePicture)}
                             alt={post.user.username}
                             className="h-11 w-11 rounded-full object-cover"
                         />
@@ -270,7 +271,7 @@ const handleFollow = async () => {
             <div className="flex max-h-[650px] items-center justify-center overflow-hidden bg-gray-50">
                 {post.imageUrl && (
                     <img
-                        src={`http://localhost:5000${post.imageUrl}`}
+                        src={assetUrl(post.imageUrl)}
                         alt={post.caption || "Shared photograph"}
                         className="block max-h-[650px] w-full object-contain"
                     />
