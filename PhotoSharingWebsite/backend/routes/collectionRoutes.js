@@ -10,9 +10,9 @@ import protect from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.use(protect);
-router.get("/", getCollections);
-router.post("/", createCollection);
-router.post("/:id/posts/:postId", toggleCollectionPost);
-router.delete("/:id", deleteCollection);
+router.get("/",protect, getCollections);
+router.post("/", protect, createCollection);
+router.post("/:id/posts/:postId",protect, toggleCollectionPost);
+router.delete("/:id",protect, deleteCollection);
 
 export default router;

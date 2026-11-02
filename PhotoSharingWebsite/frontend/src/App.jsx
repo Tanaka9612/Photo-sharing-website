@@ -22,13 +22,16 @@ function App() {
         <Route path="/" element={<SplashPage/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route element={<ProtectedRoute />}>
         <Route path="/home" element={<Home/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/upload' element={<Upload/>}/>
         <Route path='/settings' element={<Settings/>}/>
         <Route path="/admin-dashboard" element={<AdminDashboard />}/>
         <Route path='/edit-profile' element={<EditProfile />}/>
-        <Route path="*" element={<NotFound/>}/>
+        <Route path="*" element={<NotFound/>}/>        
+        </Route>
+        
       </Routes>
     </BrowserRouter>
   )
